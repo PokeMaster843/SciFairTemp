@@ -2,6 +2,7 @@ package com.thepokemaster843.scifairencryption;
 
 class AES {
   
+  public int Nk = 4, Nb = 4, Nr = 10;
   public int[][] sBox = { {0x63, 0x7C, 0x77, 0x7B, 0xF2, 0x6B, 0x6F, 0xC5, 0x30, 0x01, 0x67, 0x2B, 0xFE, 0xD7, 0xAB, 0x76},
                           {0xCA, 0x82, 0xC9, 0x7D, 0xFA, 0x59, 0x47, 0xF0, 0xAD, 0xD4, 0xA2, 0xAF, 0x9C, 0xA4, 0x72, 0xC0},
                           {0xB7, 0xFD, 0x93, 0x26, 0x36, 0x3F, 0xF7, 0xCC, 0x34, 0xA5, 0xE5, 0xF1, 0x71, 0xD8, 0x31, 0x15},
@@ -81,6 +82,39 @@ class AES {
     */
     int[] newBytes = {this.subWord(bytes[0]), this.subWord(bytes[1]), this.subWord(bytes[2]), this.subWord(bytes[3])};
     return newBytes;
+    
+  }
+  
+  public void expandKey(int[] key, int[] w) {
+    
+    int i;
+    int[] temp = new int[4];
+    
+    for(; i < Nk; i++) {
+      
+      w[i] = {key[4*i], key[4*i + 1], key[4*i + 2], key[4*i + 3]};
+      
+    }
+    
+    i = Nk;
+    
+    for(; i < Nb * (Nr + 1); i++) {
+      
+      temp = w[i - 1];
+      
+      if(i % Nk == 0) {
+        
+        temp = this.subWord(this.rotWord(temp));
+        temp[0] = temp[0] ^ rcon[i / Nk];
+        temp[1] = temp[1] ^ rcon[i / Nk];
+        temp[2] = temp[2] ^ rcon[i / Nk];
+        temp[3] = temp[3] ^ rcon[i / Nk];
+        
+      }
+      
+      w[i] = {w[i - Nk][0] ^ temp[0], w[i - Nk][1] ^ temp[1], w[i - Nk][2] ^ temp[2], w[i - Nk][3] ^ temp[3]};
+      
+    }
     
   }
   
