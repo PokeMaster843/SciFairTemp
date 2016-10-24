@@ -85,7 +85,7 @@ class AES {
     
   }
   
-  public void expandKey(int[] key, int[] w) {
+  public void expandKey(int[] key /* 4 * Nk in size */, int[] w /* Nb * (Nr + 1) in size */) {
     
     int i;
     int[] temp = new int[4];
