@@ -36,4 +36,35 @@ class AES {
                               {0xA0, 0xE0, 0x3B, 0x4D, 0xAE, 0x2A, 0xF5, 0xB0, 0xC8, 0xEB, 0xBB, 0x3C, 0x83, 0x53, 0x99, 0x61},
                               {0x17, 0x2B, 0x04, 0x7E, 0xBA, 0x77, 0xD6, 0x26, 0xE1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0C, 0x7D}};
   
+  public int[] subWord(int[] word) {
+    
+    int[] xVals = {int[0] & 0x0F, int[1] & 0x0F, int[2] & 0x0F, int[3] & 0x0F};
+    int[] yVals = {int[0] >> 4 & 0x0F, int[1] >> 4 & 0x0F, int[2] >> 4 & 0x0F, int[3] >> 4 & 0x0F};
+    int[] newWord = {sBox[xVals[0]][yVals[0]], sBox[xVals[1]][yVals[1]], sBox[xVals[2]][yVals[2]], sBox[xVals[3]][yVals[3]]};
+    
+    return newWord;
+    
+  }
+  
+  public int[] rotWord(int[] word) {
+    
+    int[] newWord = {word[1], word[2], word[3], word[0]};
+    return newWord;
+    
+  }
+  
+  public int[] subBytes(int[] bytes) {
+    
+    /* bytes works like this, as it is a 4x4 array
+     * {{0,  1,  2,  3 },
+     *  {4,  5,  6,  7 },
+     *  {8,  9,  10, 11},
+     *  {12, 13, 14, 15}}
+     * therefore, by using subWord on each row of bytes, we switch out each row with the subbed in bytes, making this function the subBytes function
+    */
+    int[] newBytes = {this.subWord(bytes[0]), this.subWord(bytes[1]), this.subWord(bytes[2]), this.subWord(bytes[3])};
+    return newBytes;
+    
+  }
+  
 }
