@@ -72,7 +72,7 @@ class AES {
     
   }
   
-  public int[] subBytes(int[] bytes) {
+  public int[][] subBytes(int[][] bytes) {
     
     /* the bytes variable works like this, as it is a 4x4 array
      * {{0,  1,  2,  3 },
@@ -81,12 +81,12 @@ class AES {
      *  {12, 13, 14, 15}}
      * therefore, by using subWord on each row of bytes, we switch out each row with the subbed in bytes, making this function the subBytes function
     */
-    int[] newBytes = {this.subWord(bytes[0]), this.subWord(bytes[1]), this.subWord(bytes[2]), this.subWord(bytes[3])};
+    int[][] newBytes = {this.subWord(bytes[0]), this.subWord(bytes[1]), this.subWord(bytes[2]), this.subWord(bytes[3])};
     return newBytes;
     
   }
   
-  public int[] shiftRows(int[] bytes) {
+  public int[][] shiftRows(int[][] bytes) {
     
     /*        this      becomes      this
      * {{0,  1,  2,  3 },     {{0,  1,  2,  3 },  rot 0 <--
@@ -95,12 +95,27 @@ class AES {
      *  {12, 13, 14, 15}}      {15, 12, 13, 14}}  rot 3 <--
     */
     
-    int[] newBytes = {bytes[0], this.rotWord(bytes[1]), this.rotWord(this.rotWord(bytes[2])), this.rotWord(this.rotWord(this.rotWord(bytes[3])))};
-    return newBytes
+    int[][] newBytes = {bytes[0], this.rotWord(bytes[1]), this.rotWord(this.rotWord(bytes[2])), this.rotWord(this.rotWord(this.rotWord(bytes[3])))};
+    return newBytes;
     
   }
   
-  public int[] mixColumns(int[] bytes) {
+  public int[][] mixColumns(int[][] bytes) {
+    
+    /*
+     * [ s(0,c) ]  [ 0  1  2  3  ]      [ 0 * s(0,c)   1 * s(1,c)    2 * s(2,c)    3 * s(3,c)  ]
+     * [ s(1,c) ]  [ 4  5  6  7  ]      [ 4 * s(0,c)   5 * s(1,c)    6 * s(2,c)    7 * s(3,c)  ]
+     * [ s(2,c) ]  [ 8  9  10 11 ]    = [ 8 * s(0,c)   9 * s(1,c)    10 * s(2,c)   11 * s(3,c) ]
+     * [ s(3,c) ]  [ 12 13 14 15 ]      [ 12 * s(0,c)  13 * s(1,c)   14 * s(2,c)   15 * s(3,c) ]
+     * 
+    */
+    
+    int[][] newBytes = {{bytes[0][0] * s(0,c), bytes[0][1] * s(1,c), bytes[0][2] * s(2,c), bytes[0][3] * s(3,c)},
+                        {bytes[1][0] * s(0,c), bytes[1][1] * s(1,c), bytes[1][2] * s(2,c), bytes[1][3] * s(3,c)},
+                        {bytes[2][0] * s(0,c), bytes[2][1] * s(1,c), bytes[2][2] * s(2,c), bytes[2][3] * s(3,c)},
+                        {bytes[3][0] * s(0,c), bytes[3][1] * s(1,c), bytes[3][2] * s(2,c), bytes[3][3] * s(3,c)}};
+    
+    
     
   }
   
