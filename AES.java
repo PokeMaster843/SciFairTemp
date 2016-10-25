@@ -131,7 +131,7 @@ class AES {
      * remember, w is an array full of words (1 row is a word)
     */
     
-    int[][] newBytes = {{bytes[0][0] ^ w[]},
+    int[][] newBytes = {{bytes[0][0] ^ w[0 * Nb][0], bytes[0][1] ^ w[][]},
                         {},
                         {},
                         {}};
