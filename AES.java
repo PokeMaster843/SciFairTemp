@@ -9,6 +9,11 @@ class AES {
                                              {0x01, 0x01, 0x02, 0x03},
                                              {0x03, 0x01, 0x01, 0x02}};
   
+  public static final int[][] invGaloisTable = {{0x0e, 0x0b, 0x0d, 0x09},
+                                                {0x09, 0x0e, 0x0b, 0x0d},
+                                                {0x0d, 0x09, 0x0e, 0x0b},
+                                                {0x0b, 0x0d, 0x09, 0x0e}};
+  
   public static final int[][] sBox = {  {0x63, 0x7C, 0x77, 0x7B, 0xF2, 0x6B, 0x6F, 0xC5, 0x30, 0x01, 0x67, 0x2B, 0xFE, 0xD7, 0xAB, 0x76},
                                         {0xCA, 0x82, 0xC9, 0x7D, 0xFA, 0x59, 0x47, 0xF0, 0xAD, 0xD4, 0xA2, 0xAF, 0x9C, 0xA4, 0x72, 0xC0},
                                         {0xB7, 0xFD, 0x93, 0x26, 0x36, 0x3F, 0xF7, 0xCC, 0x34, 0xA5, 0xE5, 0xF1, 0x71, 0xD8, 0x31, 0x15},
@@ -124,17 +129,19 @@ class AES {
     
   }
   
-  public int[][] addRoundKey(int[][] bytes) {
+  public int[][] addRoundKey(int[][] bytes, int round) {
     
     /* any column
      * [0 1 2 3] XOR w[round * Nb + column] 
      * remember, w is an array full of words (1 row is a word)
     */
     
-    int[][] newBytes = {{bytes[0][0] ^ w[0 * Nb][0], bytes[0][1] ^ w[][]},
-                        {},
-                        {},
-                        {}};
+    int[][] newBytes = {{bytes[0][0] ^ w[round * Nb + 0][0], bytes[0][1] ^ w[round * Nb + 1][0], bytes[0][2] ^ w[round * Nb + 2][0], bytes[0][3] ^ w[round * Nb + 3][0]},
+                        {bytes[1][0] ^ w[round * Nb + 0][1], bytes[1][1] ^ w[round * Nb + 1][1], bytes[1][2] ^ w[round * Nb + 2][1], bytes[1][3] ^ w[round * Nb + 3][1]},
+                        {bytes[2][0] ^ w[round * Nb + 0][2], bytes[2][1] ^ w[round * Nb + 1][2], bytes[2][2] ^ w[round * Nb + 2][2], bytes[2][3] ^ w[round * Nb + 3][2]},
+                        {bytes[3][0] ^ w[round * Nb + 0][3], bytes[3][1] ^ w[round * Nb + 1][3], bytes[3][2] ^ w[round * Nb + 2][3], bytes[3][3] ^ w[round * Nb + 3][3]}};
+    
+    return newBytes;
     
   }
   
