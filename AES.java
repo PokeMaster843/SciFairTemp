@@ -3,7 +3,12 @@ package com.thepokemaster843.scifairencryption;
 class AES {
   
   public static final int Nk = 4, Nb = 4, Nr = 10;
-  public int[] w = new int[Nb * (Nr + 1)], key = new int[4 * Nk];
+  public int[][] w = new int[Nb * (Nr + 1)][4], key = new int[4][4];
+  public static final int[][] galoisTable = {{0x02, 0x03, 0x01, 0x01},
+                                             {0x01, 0x02, 0x03, 0x01},
+                                             {0x01, 0x01, 0x02, 0x03},
+                                             {0x03, 0x01, 0x01, 0x02}};
+  
   public static final int[][] sBox = {  {0x63, 0x7C, 0x77, 0x7B, 0xF2, 0x6B, 0x6F, 0xC5, 0x30, 0x01, 0x67, 0x2B, 0xFE, 0xD7, 0xAB, 0x76},
                                         {0xCA, 0x82, 0xC9, 0x7D, 0xFA, 0x59, 0x47, 0xF0, 0xAD, 0xD4, 0xA2, 0xAF, 0x9C, 0xA4, 0x72, 0xC0},
                                         {0xB7, 0xFD, 0x93, 0x26, 0x36, 0x3F, 0xF7, 0xCC, 0x34, 0xA5, 0xE5, 0xF1, 0x71, 0xD8, 0x31, 0x15},
@@ -102,7 +107,7 @@ class AES {
   
   public int[][] mixColumns(int[][] bytes) {
     
-    /*
+    /* s is the Galois table
      * [ s(0,c) ]  [ 0  1  2  3  ]      [ 0 * s(0,c)   1 * s(1,c)    2 * s(2,c)    3 * s(3,c)  ]
      * [ s(1,c) ]  [ 4  5  6  7  ]      [ 4 * s(0,c)   5 * s(1,c)    6 * s(2,c)    7 * s(3,c)  ]
      * [ s(2,c) ]  [ 8  9  10 11 ]    = [ 8 * s(0,c)   9 * s(1,c)    10 * s(2,c)   11 * s(3,c) ]
@@ -110,24 +115,38 @@ class AES {
      * 
     */
     
-    int[][] newBytes = {{bytes[0][0] * s(0,c), bytes[0][1] * s(1,c), bytes[0][2] * s(2,c), bytes[0][3] * s(3,c)},
-                        {bytes[1][0] * s(0,c), bytes[1][1] * s(1,c), bytes[1][2] * s(2,c), bytes[1][3] * s(3,c)},
-                        {bytes[2][0] * s(0,c), bytes[2][1] * s(1,c), bytes[2][2] * s(2,c), bytes[2][3] * s(3,c)},
-                        {bytes[3][0] * s(0,c), bytes[3][1] * s(1,c), bytes[3][2] * s(2,c), bytes[3][3] * s(3,c)}};
+    int[][] newBytes = {{bytes[0][0] * galoisTable[0][0], bytes[0][1] * galoisTable[0][1], bytes[0][2] * galoisTable[0][2], bytes[0][3] * galoisTable[0][3]},
+                        {bytes[1][0] * galoisTable[1][0], bytes[1][1] * galoisTable[1][1], bytes[1][2] * galoisTable[1][2], bytes[1][3] * galoisTable[1][3]},
+                        {bytes[2][0] * galoisTable[2][0], bytes[2][1] * galoisTable[2][1], bytes[2][2] * galoisTable[2][2], bytes[2][3] * galoisTable[2][3]},
+                        {bytes[3][0] * galoisTable[3][0], bytes[3][1] * galoisTable[3][1], bytes[3][2] * galoisTable[3][2], bytes[3][3] * galoisTable[3][3]}};
     
     
     
   }
   
-  public int[] expandKey(int[] key) {
+  public int[][] addRoundKey(int[][] bytes) {
     
-    int[] tempW = new int[Nb * (Nr + 1)];
+    /* any column
+     * [0 1 2 3] XOR w[round * Nb + column] 
+     * remember, w is an array full of words (1 row is a word)
+    */
+    
+    int[][] newBytes = {{bytes[0][0] ^ w[]},
+                        {},
+                        {},
+                        {}};
+    
+  }
+  
+  public int[][] expandKey(int[][] key) {
+    
+    int[][] tempW = new int[Nb * (Nr + 1)][4];
     int i;
     int[] temp = new int[4];
     
     for(; i < Nk; i++) {
       
-      tempW[i] = {key[4*i], key[4*i + 1], key[4*i + 2], key[4*i + 3]};
+      tempW[i] = {key[i][i], key[i][i + 1], key[i][i + 2], key[i][i + 3]};
       
     }
     
