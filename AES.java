@@ -73,9 +73,24 @@ class AES {
     
   }
   
+  public int[] invSubWord(int[] word) {
+    
+    int[] newWord = {inv_sBox[word[0]], inv_sBox[word[1]], inv_sBox[word[2]], inv_sBox[word[3]}};
+    
+    return newWord;
+    
+  }
+  
   public int[] rotWord(int[] word) {
     
     int[] newWord = {word[1], word[2], word[3], word[0]};
+    return newWord;
+    
+  }
+  
+  public int[] invRotWord(int[] word) {
+    
+    int[] newWord = {word[3], word[0], word[1], word[2]};
     return newWord;
     
   }
@@ -94,6 +109,20 @@ class AES {
     
   }
   
+  public int[][] invSubBytes(int[][] bytes) {
+    
+    /* the bytes variable works like this, as it is a 4x4 array
+     * {{0,  1,  2,  3 },
+     *  {4,  5,  6,  7 },
+     *  {8,  9,  10, 11},
+     *  {12, 13, 14, 15}}
+     * therefore, by using subWord on each row of bytes, we switch out each row with the subbed in bytes, making this function the subBytes function
+    */
+    int[][] newBytes = {this.invSubWord(bytes[0]), this.invSubWord(bytes[1]), this.invSubWord(bytes[2]), this.invSubWord(bytes[3])};
+    return newBytes;
+    
+  }
+  
   public int[][] shiftRows(int[][] bytes) {
     
     /*        this      becomes      this
@@ -104,6 +133,20 @@ class AES {
     */
     
     int[][] newBytes = {bytes[0], this.rotWord(bytes[1]), this.rotWord(this.rotWord(bytes[2])), this.rotWord(this.rotWord(this.rotWord(bytes[3])))};
+    return newBytes;
+    
+  }
+  
+  public int[][] invShiftRows(int[][] bytes) {
+    
+    /*        this      becomes      this
+     * {{0,  1,  2,  3 },     {{0,  1,  2,  3 },  rot 0 <--
+     *  {4,  5,  6,  7 },      {5,  6,  7,  4 },  rot 1 <--
+     *  {8,  9,  10, 11},      {10, 11, 8,  9 },  rot 2 <--
+     *  {12, 13, 14, 15}}      {15, 12, 13, 14}}  rot 3 <--
+    */
+    
+    int[][] newBytes = {bytes[0], this.invRotWord(bytes[1]), this.invRotWord(this.invRotWord(bytes[2])), this.invRotWord(this.invRotWord(this.invRotWord(bytes[3])))};
     return newBytes;
     
   }
@@ -127,6 +170,25 @@ class AES {
     
   }
   
+  public int[][] invMixColumns(int[][] bytes) {
+    
+    /* s is the Galois table
+     * [ s(0,c) ]  [ 0  1  2  3  ]      [ 0 * s(0,c)   1 * s(1,c)    2 * s(2,c)    3 * s(3,c)  ]
+     * [ s(1,c) ]  [ 4  5  6  7  ]      [ 4 * s(0,c)   5 * s(1,c)    6 * s(2,c)    7 * s(3,c)  ]
+     * [ s(2,c) ]  [ 8  9  10 11 ]    = [ 8 * s(0,c)   9 * s(1,c)    10 * s(2,c)   11 * s(3,c) ]
+     * [ s(3,c) ]  [ 12 13 14 15 ]      [ 12 * s(0,c)  13 * s(1,c)   14 * s(2,c)   15 * s(3,c) ]
+     * 
+    */
+    
+    int[][] newBytes = {{bytes[0][0] * invGaloisTable[0][0], bytes[0][1] * invGaloisTable[0][1], bytes[0][2] * invGaloisTable[0][2], bytes[0][3] * invGaloisTable[0][3]},
+                        {bytes[1][0] * invGaloisTable[1][0], bytes[1][1] * invGaloisTable[1][1], bytes[1][2] * invGaloisTable[1][2], bytes[1][3] * invGaloisTable[1][3]},
+                        {bytes[2][0] * invGaloisTable[2][0], bytes[2][1] * invGaloisTable[2][1], bytes[2][2] * invGaloisTable[2][2], bytes[2][3] * invGaloisTable[2][3]},
+                        {bytes[3][0] * invGaloisTable[3][0], bytes[3][1] * invGaloisTable[3][1], bytes[3][2] * invGaloisTable[3][2], bytes[3][3] * invGaloisTable[3][3]}};
+    
+    
+    
+  }
+  
   public int[][] addRoundKey(int[][] bytes, int round) {
     
     /* any column
@@ -143,7 +205,7 @@ class AES {
     
   }
   
-  public int[][] invShiftRows() {
+  public int[][] invShiftRows(int[][] key) {
     
     
     
