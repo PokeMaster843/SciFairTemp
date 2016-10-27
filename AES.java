@@ -205,15 +205,6 @@ class AES {
     
   }
   
-  public int[][] invShiftRows(int[][] key) {
-    
-    
-    
-    
-  }
-  
-  
-  
   public int[][] expandKey(int[][] key) {
     
     int[][] tempW = new int[Nb * (Nr + 1)][4];
