@@ -161,12 +161,12 @@ class AES {
      * 
     */
     
-    int[][] newBytes = {{bytes[0][0] * galoisTable[0][0], bytes[0][1] * galoisTable[0][1], bytes[0][2] * galoisTable[0][2], bytes[0][3] * galoisTable[0][3]},
-                        {bytes[1][0] * galoisTable[1][0], bytes[1][1] * galoisTable[1][1], bytes[1][2] * galoisTable[1][2], bytes[1][3] * galoisTable[1][3]},
-                        {bytes[2][0] * galoisTable[2][0], bytes[2][1] * galoisTable[2][1], bytes[2][2] * galoisTable[2][2], bytes[2][3] * galoisTable[2][3]},
-                        {bytes[3][0] * galoisTable[3][0], bytes[3][1] * galoisTable[3][1], bytes[3][2] * galoisTable[3][2], bytes[3][3] * galoisTable[3][3]}};
+    int[][] newBytes = {{bytes[0][0] * galoisTable[0][0] + bytes[1][0] * galoisTable[0][1] + bytes[2][0] * galoisTable[0][2] + bytes[3][0] * galoisTable[0][3], bytes[0][1] * galoisTable[0][0] + bytes[1][1] * galoisTable[0][1] + bytes[2][1] * galoisTable[0][2] + bytes[3][1] * galoisTable[0][3], bytes[0][2] * galoisTable[0][0] + bytes[1][2] * galoisTable[0][1] + bytes[2][2] * galoisTable[0][2] + bytes[3][2] * galoisTable[0][3], bytes[0][3] * galoisTable[0][0] + bytes[1][3] * galoisTable[0][1] + bytes[2][3] * galoisTable[0][2] + bytes[3][3] * galoisTable[0][3]},
+                        {bytes[0][0] * galoisTable[1][0] + bytes[1][0] * galoisTable[1][1] + bytes[2][0] * galoisTable[1][2] + bytes[3][0] * galoisTable[1][3], bytes[0][1] * galoisTable[1][0] + bytes[1][1] * galoisTable[1][1] + bytes[2][1] * galoisTable[1][2] + bytes[3][1] * galoisTable[1][3], bytes[0][2] * galoisTable[1][0] + bytes[1][2] * galoisTable[1][1] + bytes[2][2] * galoisTable[1][2] + bytes[3][2] * galoisTable[1][3], bytes[0][3] * galoisTable[1][0] + bytes[1][3] * galoisTable[1][1] + bytes[2][3] * galoisTable[1][2] + bytes[3][3] * galoisTable[1][3]},
+                        {bytes[0][0] * galoisTable[2][0] + bytes[1][0] * galoisTable[2][1] + bytes[2][0] * galoisTable[2][2] + bytes[3][0] * galoisTable[2][3], bytes[0][1] * galoisTable[2][0] + bytes[1][1] * galoisTable[2][1] + bytes[2][1] * galoisTable[2][2] + bytes[3][1] * galoisTable[2][3], bytes[0][2] * galoisTable[2][0] + bytes[1][2] * galoisTable[2][1] + bytes[2][2] * galoisTable[2][2] + bytes[3][2] * galoisTable[2][3], bytes[0][3] * galoisTable[2][0] + bytes[1][3] * galoisTable[2][1] + bytes[2][3] * galoisTable[2][2] + bytes[3][3] * galoisTable[2][3]},
+                        {bytes[0][0] * galoisTable[3][0] + bytes[1][0] * galoisTable[3][1] + bytes[2][0] * galoisTable[3][2] + bytes[3][0] * galoisTable[3][3], bytes[0][1] * galoisTable[3][0] + bytes[1][1] * galoisTable[3][1] + bytes[2][1] * galoisTable[3][2] + bytes[3][1] * galoisTable[3][3], bytes[0][2] * galoisTable[3][0] + bytes[1][2] * galoisTable[3][1] + bytes[2][2] * galoisTable[3][2] + bytes[3][2] * galoisTable[3][3], bytes[0][3] * galoisTable[3][0] + bytes[1][3] * galoisTable[3][1] + bytes[2][3] * galoisTable[3][2] + bytes[3][3] * galoisTable[3][3]}};
     
-    
+    return newBytes;
     
   }
   
@@ -179,13 +179,12 @@ class AES {
      * [ s(3,c) ]  [ 12 13 14 15 ]      [ 12 * s(0,c)  13 * s(1,c)   14 * s(2,c)   15 * s(3,c) ]
      * 
     */
+    int[][] newBytes = {{bytes[0][0] * invGaloisTable[0][0] + bytes[1][0] * invGaloisTable[0][1] + bytes[2][0] * invGaloisTable[0][2] + bytes[3][0] * invGaloisTable[0][3], bytes[0][1] * invGaloisTable[0][0] + bytes[1][1] * invGaloisTable[0][1] + bytes[2][1] * invGaloisTable[0][2] + bytes[3][1] * invGaloisTable[0][3], bytes[0][2] * invGaloisTable[0][0] + bytes[1][2] * invGaloisTable[0][1] + bytes[2][2] * invGaloisTable[0][2] + bytes[3][2] * galoisTable[0][3], bytes[0][3] * galoisTable[0][0] + bytes[1][3] * galoisTable[0][1] + bytes[2][3] * galoisTable[0][2] + bytes[3][3] * galoisTable[0][3]},
+                        {bytes[0][0] * invGaloisTable[1][0] + bytes[1][0] * invGaloisTable[1][1] + bytes[2][0] * invGaloisTable[1][2] + bytes[3][0] * invGaloisTable[1][3], bytes[0][1] * invGaloisTable[1][0] + bytes[1][1] * invGaloisTable[1][1] + bytes[2][1] * invGaloisTable[1][2] + bytes[3][1] * invGaloisTable[1][3], bytes[0][2] * invGaloisTable[1][0] + bytes[1][2] * invGaloisTable[1][1] + bytes[2][2] * invGaloisTable[1][2] + bytes[3][2] * galoisTable[1][3], bytes[0][3] * galoisTable[1][0] + bytes[1][3] * galoisTable[1][1] + bytes[2][3] * galoisTable[1][2] + bytes[3][3] * galoisTable[1][3]},
+                        {bytes[0][0] * invGaloisTable[2][0] + bytes[1][0] * invGaloisTable[2][1] + bytes[2][0] * invGaloisTable[2][2] + bytes[3][0] * invGaloisTable[2][3], bytes[0][1] * invGaloisTable[2][0] + bytes[1][1] * invGaloisTable[2][1] + bytes[2][1] * invGaloisTable[2][2] + bytes[3][1] * invGaloisTable[2][3], bytes[0][2] * invGaloisTable[2][0] + bytes[1][2] * invGaloisTable[2][1] + bytes[2][2] * invGaloisTable[2][2] + bytes[3][2] * galoisTable[2][3], bytes[0][3] * galoisTable[2][0] + bytes[1][3] * galoisTable[2][1] + bytes[2][3] * galoisTable[2][2] + bytes[3][3] * galoisTable[2][3]},
+                        {bytes[0][0] * invGaloisTable[3][0] + bytes[1][0] * invGaloisTable[3][1] + bytes[2][0] * invGaloisTable[3][2] + bytes[3][0] * invGaloisTable[3][3], bytes[0][1] * invGaloisTable[3][0] + bytes[1][1] * invGaloisTable[3][1] + bytes[2][1] * invGaloisTable[3][2] + bytes[3][1] * invGaloisTable[3][3], bytes[0][2] * invGaloisTable[3][0] + bytes[1][2] * invGaloisTable[3][1] + bytes[2][2] * invGaloisTable[3][2] + bytes[3][2] * galoisTable[3][3], bytes[0][3] * galoisTable[3][0] + bytes[1][3] * galoisTable[3][1] + bytes[2][3] * galoisTable[3][2] + bytes[3][3] * galoisTable[3][3]}};
     
-    int[][] newBytes = {{bytes[0][0] * invGaloisTable[0][0], bytes[0][1] * invGaloisTable[0][1], bytes[0][2] * invGaloisTable[0][2], bytes[0][3] * invGaloisTable[0][3]},
-                        {bytes[1][0] * invGaloisTable[1][0], bytes[1][1] * invGaloisTable[1][1], bytes[1][2] * invGaloisTable[1][2], bytes[1][3] * invGaloisTable[1][3]},
-                        {bytes[2][0] * invGaloisTable[2][0], bytes[2][1] * invGaloisTable[2][1], bytes[2][2] * invGaloisTable[2][2], bytes[2][3] * invGaloisTable[2][3]},
-                        {bytes[3][0] * invGaloisTable[3][0], bytes[3][1] * invGaloisTable[3][1], bytes[3][2] * invGaloisTable[3][2], bytes[3][3] * invGaloisTable[3][3]}};
-    
-    
+    return newBytes;
     
   }
   
