@@ -205,5 +205,17 @@ public class Blowfish {
     return y;
     
   }
+  
+  public void initBl() {
+    
+    for(int i = 0; i < p_array.length; i++) {
+      
+      if() {
+        
+      }
+      
+    }
+    
+  }
     
 }
