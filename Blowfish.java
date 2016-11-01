@@ -2,6 +2,7 @@ package com.thepokemaster843.scifairencryption;
 
 public class Blowfish {
   
+  public int N = 16;
   public long sBox[][] = {{
   0xd1310ba6L, 0x98dfb5acL, 0x2ffd72dbL, 0xd01adfb7L, 0xb8e1afedL, 0x6a267e96L,
   0xba7c9045L, 0xf12c7f99L, 0x24a19947L, 0xb3916cf7L, 0x0801f2e2L, 0x858efc16L,
@@ -203,6 +204,32 @@ public class Blowfish {
     y += s[3][d];
     
     return y;
+    
+  }
+  
+  public void encryptBl(long dataL, long dataR) {
+    
+    long xL = dataL;
+    long xR = dataR;
+    long temp;
+    
+    for(int i = 0; i < N; i++) {
+      
+      xL = xL ^ p_array[i];
+      xR = this.F(xL) ^ xR;
+      temp = xL;
+      xL = xR;
+      xR = temp;
+      
+    }
+    
+    temp = xL;
+    xL = xR;
+    xR = temp;
+    xR = xR ^ p_array[N];
+    xL = xL ^ p_array[N + 1];
+    dataL = xL;
+    dataR = xR;
     
   }
   
