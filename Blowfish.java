@@ -236,7 +236,7 @@ public class Blowfish {
   public void initBl(int[][] key) {
     
     int index = 0;
-    int i;
+    int i, j, k;
     long data, dataL, dataR;
     
     for(i = 0; i < p_array.length; i++) {
@@ -251,12 +251,12 @@ public class Blowfish {
       p_array[i] ^= key[index][i % 4];
       
     }
-    
+
     for(i = 0; i < N + 2; i++) {
       
       data = 0x00000000;
       
-      for(int k = 0; k < 4; k++) {
+      for(k = 0; k < 4; k++) {
         
         data = (data << 8) | key[j];
         
