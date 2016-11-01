@@ -206,22 +206,20 @@ public class Blowfish {
     
   }
   
-  public void initBl(int[] key) {
+  public void initBl(int[][] key) {
     
-    int keySpot = -1;
+    int index = 0;
     
     for(int i = 0; i < p_array.length; i++) {
       
-      keySpot++;
-      
-      if(keySpot > key.length) {
+      if(i % 4 == 0 && i != 0) {
         
-        keySpot = 0;
+        index++;
         return;
         
       }
       
-      
+      p_array[i] ^= key[index][i % 4];
       
     }
     
