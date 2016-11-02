@@ -228,12 +228,22 @@ public class Blowfish {
     
   }
   
+	/*
+	 * These functions right here have a dataL and
+	 * dataR, but it is just one file split into
+	 * two different sections. You can just
+	 * split a file into two separate halves
+	 * and encrypt with Blowfish.
+	 * 
+	*/
   public void encryptBl(long dataL, long dataR) {
     
     long xL = dataL;
     long xR = dataR;
     long temp;
     
+		
+		
     for(int i = 0; i < N; i++) {
       
       xL ^= p_array[i];
@@ -253,6 +263,8 @@ public class Blowfish {
 		
     dataL = xL;
     dataR = xR;
+		
+		
     
   }
 	
