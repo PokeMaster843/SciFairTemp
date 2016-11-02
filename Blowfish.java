@@ -185,8 +185,29 @@ public class Blowfish {
   0x243f6a88L, 0x85a308d3L, 0x13198a2eL, 0x03707344L, 0xa4093822L, 0x299f31d0L,
   0x082efa98L, 0xec4e6c89L, 0x452821e6L, 0x38d01377L, 0xbe5466cfL, 0x34e90c6cL,
   0xc0ac29b7L, 0xc97c50ddL, 0x3f84d5b5L, 0xb5470917L, 0x9216d5d9L, 0x8979fb1bL};
-
-  
+	
+  public int[] convertKeyD(int[][] key) {
+		
+		int[] newKey = {key[0][0], key[0][1], key[0][2], key[0][3],
+									  key[1][0], key[1][1], key[1][2], key[1][3],
+									  key[2][0], key[2][1], key[2][2], key[2][3],
+									  key[3][0], key[3][1], key[3][2], key[3][3]};
+		
+		return newKey;
+		
+	}
+	
+	public int[][] convertKeyS(int[] key) {
+		
+		int[][] newKey = {{key[0],  key[1],  key[2],  key[3] },
+											{key[4],  key[5],  key[6],  key[7] },
+											{key[8],  key[9],  key[10], key[11]},
+											{key[12], key[13], key[14], key[15]}};
+		
+		return newKey;
+		
+	}
+	
   public long F(long x) {
     
     short a, b, c, d, y;
@@ -233,8 +254,9 @@ public class Blowfish {
     
   }
   
-  public void initBl(int[] key) {
+  public void initBl(int[][] inKey) {
     
+		int[] key = this.convertKeyD(inKey);
     int index = 0;
     int i, j, k;
     long data, dataL, dataR;
@@ -247,6 +269,13 @@ public class Blowfish {
         return;
         
       }
+			
+			if(index >= 4) {
+				
+				index = 0;
+				return;
+				
+			}
       
       p_array[i] ^= key[index][i % 4];
       
@@ -263,7 +292,7 @@ public class Blowfish {
         data = (data << 8) | key[j];
         j += 1;
 				
-				if(j >= 4) {
+				if(j >= 16) {
 					j = 0;
 				}
 				
@@ -272,18 +301,6 @@ public class Blowfish {
 			p_array[i] ^= data;
 			
     }
-    
-    for (i = 0; i < N + 2; ++i) {
-	 data = 0x00000000;
-	 for (k = 0; k < 4; ++k) {
-	    data = (data << 8) | key[j];
-	    j = j + 1;
-	    if (j >= keybytes) {
-	       j = 0;
-	    }
-	 }
-	 P[i] = P[i] ^ data;
-      }
     
   }
     
