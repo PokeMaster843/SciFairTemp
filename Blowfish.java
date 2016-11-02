@@ -236,7 +236,7 @@ public class Blowfish {
     
     for(int i = 0; i < N; i++) {
       
-      xL = xL ^ p_array[i];
+      xL ^= p_array[i];
       xR = this.F(xL) ^ xR;
       temp = xL;
       xL = xR;
@@ -247,12 +247,42 @@ public class Blowfish {
     temp = xL;
     xL = xR;
     xR = temp;
+		
     xR = xR ^ p_array[N];
     xL = xL ^ p_array[N + 1];
+		
     dataL = xL;
     dataR = xR;
     
   }
+	
+	public void decryptBl(long dataL, dataR) {
+		
+		long xL = dataL;
+		long xR = dataR;
+		long temp;
+		
+		for(int i = N + 1; i > 1; i--) {
+			
+			xL ^= p_array[i];
+			xR = this.F(xL) ^ xR;
+			temp = xL;
+			xL = xR;
+			xR = temp;
+			
+		}
+		
+		temp = xL;
+		xL = xR;
+		xR = temp;
+		
+		xR ^= p_array[1];
+		xL ^= p_array[0];
+		
+		dataL = xL;
+		dataR = xR;
+		
+	}
   
   public void initBl(int[][] inKey) {
     
@@ -301,6 +331,29 @@ public class Blowfish {
 			p_array[i] ^= data;
 			
     }
+		
+		dataL = 0x00000000;
+		dataR = 0x00000000;
+		
+		for(i = 0; i < N + 2; i += 2) {
+			
+			this.encryptBl(dataL, dataR);
+			p_array[i] = dataL;
+			p_array[i + 1] = dataR;
+			
+		}
+		
+		for(i = 0; i < 4; i++) {
+			
+			for(j = 0; j < 256; j += 2) {
+				
+				this.encryptBl(dataL, dataR);
+				sBox[i][j] = dataL;
+				sBox[i][j + 1] = dataR;
+				
+			}
+			
+		}
     
   }
     
