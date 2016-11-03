@@ -210,7 +210,8 @@ public class Blowfish {
 	
   public long F(long x) {
     
-    short a, b, c, d, y;
+    short a, b, c, d;
+		long y;
     d = x & 0x00ff;
     x >>= 8;
     c = x & 0x00ff;
